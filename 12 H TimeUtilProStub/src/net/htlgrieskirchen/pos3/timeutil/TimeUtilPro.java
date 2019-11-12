@@ -110,13 +110,47 @@ public class TimeUtilPro
     }
 
     public static int localDateTimeToInt(LocalDateTime dateTime) {
-        return -1;
+        String year = String.valueOf(dateTime.getYear());
+        String month = String.valueOf(dateTime.getMonthValue());
+        String day = String.valueOf(dateTime.getDayOfMonth());
+        
+        // wenn Monatsnummer einstellig ist 0 davor haengen
+        if (Integer.parseInt(month) < 10) {
+            month = "0" + month;
+        }
+        
+        // wenn Tag einstellig ist 0 davor haengen
+        if (Integer.parseInt(day) < 10) {
+            day = "0" + day;
+        }
+        
+        StringBuilder builder = new StringBuilder(year);
+        builder.append(month);
+        builder.append(day);
+        return Integer.valueOf(builder.toString());
     }
 
     // ########## LONG METHODS ##########
     
     public static long localDateToLong(LocalDate date) {
-        return -1L;
+        String year = String.valueOf(date.getYear());
+        String month = String.valueOf(date.getMonthValue());
+        String day = String.valueOf(date.getDayOfMonth());
+        
+        // wenn Monatsnummer einstellig ist 0 davor haengen
+        if (Integer.parseInt(month) < 10) {
+            month = "0" + month;
+        }
+        
+        // wenn Tag einstellig ist 0 davor haengen
+        if (Integer.parseInt(day) < 10) {
+            day = "0" + day;
+        }
+        
+        StringBuilder builder = new StringBuilder(year);
+        builder.append(month);
+        builder.append(day);
+        return Long.valueOf(builder.toString());
     }
 
     public static long localDateTimeToLong(LocalDateTime dateTime) {

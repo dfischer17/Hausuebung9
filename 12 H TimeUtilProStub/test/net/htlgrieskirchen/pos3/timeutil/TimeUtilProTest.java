@@ -157,13 +157,10 @@ public class TimeUtilProTest {
      */
     @Test
     public void testLocalDateTimeToInt() {
-        System.out.println("localDateTimeToInt");
-        LocalDateTime dateTime = null;
-        int expResult = 0;
-        int result = TimeUtilPro.localDateTimeToInt(dateTime);
+        LocalDateTime orginal = LocalDateTime.of(2003, 2, 1, 13, 24);
+        int expResult = 20030201;
+        int result = TimeUtilPro.localDateTimeToInt(orginal);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -172,12 +169,10 @@ public class TimeUtilProTest {
     @Test
     public void testLocalDateToLong() {
         System.out.println("localDateToLong");
-        LocalDate date = null;
-        long expResult = 0L;
-        long result = TimeUtilPro.localDateToLong(date);
+        LocalDate orginal = LocalDate.of(2003, 2, 1);
+        long expResult = 20030201l;
+        long result = TimeUtilPro.localDateToLong(orginal);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
