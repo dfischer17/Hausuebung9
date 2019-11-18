@@ -5,16 +5,25 @@
  */
 package net.htlgrieskirchen.pos3.blockchain.mining;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.htlgrieskirchen.pos3.blockchain.chain.Block;
 import net.htlgrieskirchen.pos3.blockchain.chain.MiningBlock;
 import static net.htlgrieskirchen.pos3.blockchain.mining.Miner.BLOCKCHAIN;
 
 public class MyMiner extends Miner {
 
-    private static final int NUMBER_OF_THREADS = 4;
-    private static final int NUMBER_OF_COINS = 100;
+    private static final int NUMBER_OF_THREADS = 4; // 30s    
+    //private static final int NUMBER_OF_THREADS = 3; // 26s
+    //private static final int NUMBER_OF_THREADS = 2; // 22s
+    //private static final int NUMBER_OF_THREADS = 1; // 30s
+    private static final int NUMBER_OF_COINS = 100; // 13s -> am Besten!    
 
     public static void main(String[] args) throws InterruptedException {
         /**
@@ -70,40 +79,44 @@ public class MyMiner extends Miner {
 
         int firstNumber = 0;
 
-        // Intervall je Thread
+        // Intervall je Callable
         int interval = Integer.MAX_VALUE / NUMBER_OF_THREADS;
 
-        // Array der Threads
-        Worker[] worker = new Worker[NUMBER_OF_THREADS];
+        // ArrayList der Callables
+        List<MyWorker> workerList = new ArrayList<>();
 
-        // Zahlenbereiche an Threads uebergeben
+        // Zahlenbereiche an Callables uebergeben
         for (int i = 0; i < NUMBER_OF_THREADS; ++i) {
-            worker[i] = new Worker(firstNumber, firstNumber + interval);
+            workerList.add(new MyWorker(firstNumber, firstNumber + interval));
             firstNumber += interval;
         }
 
         for (int i = 0; i < NUMBER_OF_COINS; i++) {
-            for (int j = 0; j < worker.length; ++j) {
-                // Miningblock jeweiligem Worker-Runnable zuweisen
-                worker[j].setBlock(new MiningBlock(BLOCKCHAIN.get(i)));
+            for (int j = 0; j < workerList.size(); ++j) {
+                // Miningblock jeweiligem MyWorker-Callable zuweisen
+                workerList.get(j).setBlock(new MiningBlock(BLOCKCHAIN.get(i)));
             }
 
-            // Worker-Runnables starten
-            for (int j = 0; j < worker.length; ++j) {
-                executor.execute(worker[j]);
+            try {
+                // Worker-Runnables starten
+                List<Future<Block>> resultList = executor.invokeAll(workerList);
+                Block result = null;
+                for (Future<Block> future : resultList) {
+                    if (future.get() != null) {
+                        result = future.get();
+                    }                     
+                }
+                
+                BLOCKCHAIN.add(result);
+                long temp = System.currentTimeMillis();
+                System.out.println(DF.format(1000.0 * i / (temp - start)) + " coins/s");
+            } catch (ExecutionException ex) {
+                Logger.getLogger(MyMiner.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            // Warten bis alle Runnables fertig sind
-            executor.awaitTermination(147, TimeUnit.MILLISECONDS);
-
-            BLOCKCHAIN.add(Worker.getMinedBlock());
-            long temp = System.currentTimeMillis();
-            System.out.println(DF.format(1000.0 * i / (temp - start)) + " coins/s");
         }
-        
-        checkBlockchain();
+
+        checkBlockchain();        
         long end = System.currentTimeMillis();
         System.out.println("\n" + getCoins() + " coins mined in " + DF.format((end - start) / 1000.0) + " s");
-
     }
 }

@@ -12,5 +12,10 @@
             <file>file:/D:/OneDrive/Projects/HTBLA%20neu/POS3/Java%208/10%20H%20Blockchain/src/net/htlgrieskirchen/pos3/blockchain/mining/Miner.java</file>
             <file>file:/D:/OneDrive/Projects/HTBLA%20neu/POS3/Java%208/10%20H%20Blockchain/src/net/htlgrieskirchen/pos3/blockchain/chain/MiningBlock.java</file>
         </group>
+        <group>
+            <file>file:/C:/Users/Daniel%20Fischer/Desktop/Hausuebung9/Blockchain/10%20H%20Blockchain/src/net/htlgrieskirchen/pos3/blockchain/mining/MinerParallel.java</file>
+            <file>file:/C:/Users/Daniel%20Fischer/Desktop/Hausuebung9/Blockchain/10%20H%20Blockchain/src/net/htlgrieskirchen/pos3/blockchain/mining/MyWorker.java</file>
+            <file>file:/C:/Users/Daniel%20Fischer/Desktop/Hausuebung9/Blockchain/10%20H%20Blockchain/src/net/htlgrieskirchen/pos3/blockchain/mining/MyMiner.java</file>
+        </group>
     </open-files>
 </project-private>

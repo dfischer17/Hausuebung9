@@ -29,5 +29,4 @@ public final class MiningBlock extends Block {
         
         return valid;
     }
-
 }

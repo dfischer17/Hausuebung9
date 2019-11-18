@@ -49,5 +49,4 @@ public class Miner {
 
         return result;
     }
-
 }

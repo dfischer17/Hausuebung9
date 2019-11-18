@@ -48,6 +48,5 @@ public class MinerParallel extends Miner {
         checkBlockchain();
         long end = System.currentTimeMillis();
         System.out.println("\n" + getCoins() + " coins mined in " + DF.format((end - start)/1000.0) + " s");
-    }
-    
+    }    
 }
